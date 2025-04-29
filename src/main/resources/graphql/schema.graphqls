@@ -1,0 +1,23 @@
+type WeatherData {
+    id: ID!
+    city: String!
+    country: String!
+    temperature: Float!
+    humidity: Float!
+    windSpeed: Float!
+    weatherDescription: String!
+    timestamp: String!
+}
+
+input DateRangeInput {
+    startDate: String!
+    endDate: String!
+}
+
+type Query {
+    allWeatherData: [WeatherData]!
+    weatherDataByCity(city: String!): [WeatherData]!
+    weatherDataByCountry(country: String!): [WeatherData]!
+    weatherDataByDateRange(dateRange: DateRangeInput!): [WeatherData]!
+    weatherDataByCityAndDateRange(city: String!, dateRange: DateRangeInput!): [WeatherData]!
+}

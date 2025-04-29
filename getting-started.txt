@@ -1,0 +1,42 @@
+# Getting Started with the Data Collection Pipeline
+
+Follow this checklist to set up and run the Data Collection Pipeline project:
+
+## Local Development Setup
+
+### 1. Prerequisites Installation
+
+- [ ] Install Java 17 (or higher)
+  ```bash
+  # Check if Java is installed
+  java -version
+  ```
+
+- [ ] Install Maven
+  ```bash
+  # Check if Maven is installed
+  mvn -version
+  ```
+
+- [ ] Install Docker and Docker Compose
+  ```bash
+  # Check if Docker is installed
+  docker --version
+  docker-compose --version
+  ```
+
+- [ ] Get OpenWeatherMap API Key
+  - Sign up at https://openweathermap.org/
+  - Create an API key in your account dashboard
+
+### 2. Project Setup
+
+- [ ] Create the project directory structure as shown in the README.md
+- [ ] Create all the Java files with the provided code
+- [ ] Create the application.properties file
+- [ ] Create the GraphQL schema file in src/main/resources/graphql/schema.graphqls
+- [ ] Set up the pom.xml with the required dependencies
+
+### 3. Local Environment Setup
+
+- [ ] Create a .env

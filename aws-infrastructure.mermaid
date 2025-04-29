@@ -1,0 +1,49 @@
+flowchart TB
+    User[User/Client] --> |HTTP| ALB[Application Load Balancer]
+    
+    subgraph "VPC"
+        subgraph "Public Subnets"
+            ALB
+        end
+        
+        subgraph "Private Subnets"
+            ALB --> |"Forward"| ECS[ECS Fargate Service]
+            ECS --> |"Connect"| MSK[Amazon MSK Kafka]
+            ECS --> |"Connect"| RDS[Amazon RDS MySQL]
+            
+            subgraph "ECS Tasks"
+                ECS --> App[Data Pipeline App]
+            end
+            
+            subgraph "MSK Cluster"
+                MSK --> MSK1[MSK Broker 1]
+                MSK --> MSK2[MSK Broker 2]
+                MSK --> MSK3[MSK Broker 3]
+            end
+        end
+    end
+    
+    subgraph "Deployment"
+        GitHub[GitHub Repository] --> |"Trigger"| Actions[GitHub Actions]
+        Actions --> |"Build"| ECR[Amazon ECR]
+        ECR --> |"Deploy"| ECS
+    end
+    
+    subgraph "Monitoring"
+        ECS --> |"Logs"| CloudWatch[CloudWatch Logs]
+        MSK --> |"Metrics"| CloudWatch
+        RDS --> |"Metrics"| CloudWatch
+        App --> |"Metrics"| CloudWatch
+    end
+    
+    classDef network fill:#dae8fc,stroke:#333,stroke-width:1px;
+    classDef compute fill:#d5e8d4,stroke:#333,stroke-width:1px;
+    classDef storage fill:#ffe6cc,stroke:#333,stroke-width:1px;
+    classDef deployment fill:#e1d5e7,stroke:#333,stroke-width:1px;
+    classDef monitoring fill:#fff2cc,stroke:#333,stroke-width:1px;
+    
+    class VPC,ALB network;
+    class ECS,App,MSK,MSK1,MSK2,MSK3 compute;
+    class RDS,ECR storage;
+    class GitHub,Actions deployment;
+    class CloudWatch monitoring;

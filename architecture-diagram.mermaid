@@ -1,0 +1,36 @@
+flowchart TB
+    API[Weather API] --> |REST| DataCollector[Data Collection Job]
+    DataCollector --> |"Publish"| RawTopic[Kafka: raw-data topic]
+    RawTopic --> |"Consume"| Processor[Data Processing Service]
+    Processor --> |"Publish"| ProcessedTopic[Kafka: processed-data topic]
+    ProcessedTopic --> |"Consume"| DBConsumer[DB Consumer Service]
+    DBConsumer --> |"Store"| Database[(MySQL Database)]
+    Database --> |"Query"| GraphQL[GraphQL API]
+    GraphQL --> |"Serve"| Client[Client Application]
+    
+    subgraph "Data Collection"
+        API
+        DataCollector
+    end
+    
+    subgraph "Message Processing"
+        RawTopic
+        Processor
+        ProcessedTopic
+    end
+    
+    subgraph "Data Storage & Serving"
+        DBConsumer
+        Database
+        GraphQL
+    end
+    
+    classDef collection fill:#d1f0ee,stroke:#333,stroke-width:1px;
+    classDef processing fill:#f9d6ac,stroke:#333,stroke-width:1px;
+    classDef storage fill:#d5e8d4,stroke:#333,stroke-width:1px;
+    classDef client fill:#dae8fc,stroke:#333,stroke-width:1px;
+    
+    class API,DataCollector collection;
+    class RawTopic,Processor,ProcessedTopic processing;
+    class DBConsumer,Database,GraphQL storage;
+    class Client client;
