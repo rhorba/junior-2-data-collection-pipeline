@@ -51,7 +51,14 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
       SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
-      API_WEATHER_KEY: ${API_WEATHER_KEY:-your-api-key-here}
+      API_WEATHER_KEY: ${API_WEATHER_KEY:-}
+      # Enable Spring DevTools for hot reloading
+      SPRING_DEVTOOLS_RESTART_ENABLED: true
+    volumes:
+      # Mount only the source code, not the entire directory
+      - ./src:/app/src
+      # Mount application.properties for hot reload
+      - ./src/main/resources/application.properties:/app/src/main/resources/application.properties
     depends_on:
       - kafka
       - mysql

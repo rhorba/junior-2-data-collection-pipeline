@@ -1,9 +1,10 @@
+# Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### IntelliJ IDEA ###
+# IDE - IntelliJ IDEA
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -12,7 +13,7 @@ target/
 *.iml
 *.ipr
 
-### Eclipse ###
+# IDE - Eclipse
 .apt_generated
 .classpath
 .factorypath
@@ -21,7 +22,7 @@ target/
 .springBeans
 .sts4-cache
 
-### NetBeans ###
+# IDE - NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -31,8 +32,33 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# IDE - VS Code
 .vscode/
 
-### Mac OS ###
+# OS specific
 .DS_Store
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+*.tfplan
+
+# Secrets
+secrets/
+*.pem
+*.ppk
+*.key
+*.pub
+
+# Logs
+*.log
+
+# Others
+temp/
+tmp/
+# secrets
+.secrets
+.publickey

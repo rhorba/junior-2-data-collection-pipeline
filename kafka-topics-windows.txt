@@ -1,0 +1,15 @@
+@echo off
+REM Windows batch script to create and verify Kafka topics
+
+echo Creating Kafka topics...
+docker-compose exec kafka kafka-topics --create --topic raw-data --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+docker-compose exec kafka kafka-topics --create --topic processed-data --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+echo.
+echo Listing all topics to verify:
+docker-compose exec kafka kafka-topics --list --bootstrap-server localhost:9092
+
+echo.
+echo Setting up a consumer to monitor the 'raw-data' topic...
+echo Press Ctrl+C to exit when done monitoring.
+docker-compose exec kafka kafka-console-consumer --bootstrap-server localhost:9092 --topic raw-data --from-beginning

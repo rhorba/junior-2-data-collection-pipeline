@@ -2,42 +2,55 @@ package com.example.datapipeline.graphql;
 
 import com.example.datapipeline.model.ProcessedWeatherData;
 import com.example.datapipeline.repository.WeatherDataRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class WeatherDataResolver {
 
     private final WeatherDataRepository weatherDataRepository;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
+    // Ensure the constructor is properly injecting the repository
+    public WeatherDataResolver(WeatherDataRepository weatherDataRepository) {
+        this.weatherDataRepository = weatherDataRepository;
+    }
+
     @QueryMapping
     public List<ProcessedWeatherData> allWeatherData() {
-        return weatherDataRepository.findAll();
+        // Return an empty list instead of null if no data exists
+        List<ProcessedWeatherData> data = weatherDataRepository.findAll();
+        return data != null ? data : new ArrayList<>();
     }
 
     @QueryMapping
     public List<ProcessedWeatherData> weatherDataByCity(@Argument String city) {
-        return weatherDataRepository.findByCity(city);
+        // Return an empty list instead of null if no data exists
+        List<ProcessedWeatherData> data = weatherDataRepository.findByCity(city);
+        return data != null ? data : new ArrayList<>();
     }
 
     @QueryMapping
     public List<ProcessedWeatherData> weatherDataByCountry(@Argument String country) {
-        return weatherDataRepository.findByCountry(country);
+        // Return an empty list instead of null if no data exists
+        List<ProcessedWeatherData> data = weatherDataRepository.findByCountry(country);
+        return data != null ? data : new ArrayList<>();
     }
 
     @QueryMapping
     public List<ProcessedWeatherData> weatherDataByDateRange(@Argument DateRangeInput dateRange) {
         LocalDateTime start = LocalDateTime.parse(dateRange.getStartDate(), DATE_FORMATTER);
         LocalDateTime end = LocalDateTime.parse(dateRange.getEndDate(), DATE_FORMATTER);
-        return weatherDataRepository.findByTimestampBetween(start, end);
+
+        // Return an empty list instead of null if no data exists
+        List<ProcessedWeatherData> data = weatherDataRepository.findByTimestampBetween(start, end);
+        return data != null ? data : new ArrayList<>();
     }
 
     @QueryMapping
@@ -46,7 +59,10 @@ public class WeatherDataResolver {
             @Argument DateRangeInput dateRange) {
         LocalDateTime start = LocalDateTime.parse(dateRange.getStartDate(), DATE_FORMATTER);
         LocalDateTime end = LocalDateTime.parse(dateRange.getEndDate(), DATE_FORMATTER);
-        return weatherDataRepository.findByCityAndTimestampBetween(city, start, end);
+
+        // Return an empty list instead of null if no data exists
+        List<ProcessedWeatherData> data = weatherDataRepository.findByCityAndTimestampBetween(city, start, end);
+        return data != null ? data : new ArrayList<>();
     }
 
     // Input class for date range
@@ -70,5 +86,4 @@ public class WeatherDataResolver {
             this.endDate = endDate;
         }
     }
-
 }

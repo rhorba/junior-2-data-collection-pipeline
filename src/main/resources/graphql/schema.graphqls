@@ -15,6 +15,7 @@ input DateRangeInput {
 }
 
 type Query {
+    # Make sure the return type matches the repository results
     allWeatherData: [WeatherData]!
     weatherDataByCity(city: String!): [WeatherData]!
     weatherDataByCountry(country: String!): [WeatherData]!
